@@ -1,4 +1,6 @@
-const CourseSchema = require("./coursesSchema")
+const CourseSchema = require("./coursesSchema");
+const filterSchema = require("./filterSchema");
+
 
 exports.getCourses = async (req, res) => {
     try {
@@ -25,6 +27,14 @@ exports.getCourses = async (req, res) => {
         res.status(500).send({ message: "Error fetching post", error })
     }
 }
+exports.getAllCorses=async(req,res)=>{
+    try {
+        const courses = await CourseSchema.find()
+        res.status(200).send(courses)
+    } catch (error) {
+         res.status(500).send({ message: "Error fetching post", error })
+    }
+}
 exports.createCourse = async (req, res) => {
     try {
         const course = new CourseSchema(req.body)
@@ -34,3 +44,29 @@ exports.createCourse = async (req, res) => {
         res.status(500).send({ message: "Error creating post", error })
     }
 }
+
+exports.getCoursesCategory = async (req, res) => {
+    try {
+        const data = await filterSchema.find();
+        res.status(200).json({ success: true, data });
+    } catch (error) {
+        res.status(500).json({ success: false, message: "Failed to fetch data", error: error.message });
+    }
+};
+
+exports.post = async (req, res) => {
+  
+    try {
+      // Create a new course using the data from the request body
+      const newCourse = new filterSchema(req.body)
+      await newCourse.save()
+      // Respond with the saved course data
+      res.status(201).json({ message: "Course filter added successfully!",newCourse});
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Failed to add course", error: error.message });
+    }
+  };
+  
+
+
