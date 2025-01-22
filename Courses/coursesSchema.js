@@ -9,6 +9,20 @@ const InstructorSchema = new mongoose.Schema({
   courses: { type: String, required: true },
   profession: { type: String, required: true },
 });
+const ReviewSchema = new mongoose.Schema({
+  reviewer_name: { type: String, required: true },
+  rating: { type: Number, required: true, min: 0, max: 5 },
+  review_text: { type: String, required: true },
+  image: { type: String, required: true },
+  review_date: { type: Date, required: true },
+  email: { type: String, required: true },
+});
+const SyllabusSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  lessons: { type: Number, required: true },
+  time: { type: String, required: true },
+  content: { type: [String], required: true },
+});
 
 const CourseSchema = new mongoose.Schema({
   course_name: { type: String, required: true },
@@ -23,7 +37,7 @@ const CourseSchema = new mongoose.Schema({
   duration: { type: String, required: true },
   description: { type: String, required: true },
   topics: { type: [String], required: true },
-  syllabus: { type: [String], default: [] },
+  syllabus: { type: [SyllabusSchema], default: [] },
   enrolled: { type: Number, required: true },
   certificate: { type: String, required: true },
   last_updated: { type: Date, required: true },
@@ -32,7 +46,7 @@ const CourseSchema = new mongoose.Schema({
   original_price: { type: String, required: true },
   discounted_price: { type: String, required: true },
   category: { type: String, required: true },
-  reviews: { type: [String], default: [] },
+  reviews: { type: [ReviewSchema], default: [] }
 });
 
 module.exports = mongoose.model('Courses', CourseSchema);
