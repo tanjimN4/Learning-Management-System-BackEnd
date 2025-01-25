@@ -3,6 +3,7 @@ const connectDB = require("./Config/dbConfig");
 const app = express();
 const cors=require("cors");
 const coursesRoute = require("./Courses/coursesRoute");
+const chartRoute=require("./Chart/chartRoute")
 
 app.use(express.json());
 
@@ -21,6 +22,7 @@ app.get("/", (req, res) => {
 });
 
 app.use('/api',coursesRoute)
+app.use('/api',chartRoute)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
